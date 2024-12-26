@@ -105,7 +105,19 @@ const handleputrouter = async (req, res) => {
 	});
 };
 
-const handledeleterouter = (req, res) => {};
+const handledeleterouter = async (req, res) => {
+	try {
+		const eventid = req.params.id;
+		const Event = getCollection();
+		await Event.deleteOne({ _id: new ObjectId(`${eventid}`) });
+		return res.json({ status: "Deleted succesfully" });
+	} catch (err) {
+		res.status(404).json({
+			status: "Error",
+			message: "failure due to some issues",
+		});
+	}
+};
 
 module.exports = {
 	handlegetrouter,
