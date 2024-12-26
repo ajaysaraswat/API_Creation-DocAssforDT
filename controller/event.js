@@ -1,9 +1,13 @@
-const { Timestamp } = require("mongodb");
+const { Timestamp, ObjectId } = require("mongodb");
 const { getCollection } = require("../models/event");
 
-const handlegetrouter = (req, res) => {
-	console.log("length", Event);
-	return res.json({ status: "sucessfully created" });
+const handlegetrouter = async (req, res) => {
+	const eventId = req.params.id;
+	const Event = getCollection();
+	const event = await Event.findOne({
+		_id: new ObjectId(`${eventId}`),
+	});
+	return res.json(event);
 };
 
 const handlepostevent = async (req, res) => {
@@ -12,7 +16,7 @@ const handlepostevent = async (req, res) => {
 		const body = req.body;
 		const payload = {
 			type: "Event",
-			uid: new Date().getTime(),
+			uid: Event.length + 1,
 			name: body.name,
 			tagline: body.tagline,
 			schedule: body.schedule,
