@@ -2,12 +2,58 @@ const { Timestamp, ObjectId } = require("mongodb");
 const { getCollection } = require("../models/event");
 
 const handlegetrouter = async (req, res) => {
-	const eventId = req.params.id;
-	const Event = getCollection();
-	const event = await Event.findOne({
-		_id: new ObjectId(`${eventId}`),
-	});
-	return res.json(event);
+	const eventId = req.query.id;
+	const { type, limit, page } = req.query;
+	if (eventId) {
+		const Event = getCollection();
+		const event = await Event.findOne({
+			_id: new ObjectId(`${eventId}`),
+		});
+		return res.json(event);
+	} else if (type || limit || page) {
+		try {
+			const { type, limit, page } = req.query;
+
+			// Default values for pagination
+			const eventsPerPage = parseInt(limit) || 1; // Default limit is 10
+			const currentPage = parseInt(page) || 1; // Default page is 1
+			const skip = (currentPage - 1) * eventsPerPage;
+
+			const collection = getCollection();
+
+			let filter = {};
+			if (type === "latest") {
+				filter = {};
+			}
+
+			const totalEvents = await collection.countDocuments(filter);
+			const events = await collection
+				.find(filter)
+				.sort({ date: -1 })
+				.skip(skip)
+				.limit(eventsPerPage)
+				.toArray();
+
+			res.status(200).json({
+				status: "success",
+				events,
+				pagination: {
+					currentPage,
+					totalPages: Math.ceil(totalEvents / eventsPerPage),
+					limit: eventsPerPage,
+				},
+			});
+		} catch (err) {
+			console.error(err);
+			res
+				.status(500)
+				.json({ status: "error", message: "Failed to fetch events" });
+		}
+	} else {
+		const collection = getCollection();
+		const events = await collection.find({}).toArray();
+		return res.json({ events: events });
+	}
 };
 
 const handlepostevent = async (req, res) => {
