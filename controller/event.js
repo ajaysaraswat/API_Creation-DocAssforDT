@@ -13,10 +13,8 @@ const handlegetrouter = async (req, res) => {
 	} else if (type || limit || page) {
 		try {
 			const { type, limit, page } = req.query;
-
-			// Default values for pagination
-			const eventsPerPage = parseInt(limit) || 1; // Default limit is 10
-			const currentPage = parseInt(page) || 1; // Default page is 1
+			const eventsPerPage = parseInt(limit) || 1;
+			const currentPage = parseInt(page) || 1;
 			const skip = (currentPage - 1) * eventsPerPage;
 
 			const collection = getCollection();
@@ -91,7 +89,27 @@ const handlepostevent = async (req, res) => {
 	}
 };
 
+const handleputrouter = async (req, res) => {
+	const id = req.params.id;
+	const updatedata = req.body;
+	const Event = getCollection();
+	const result = await Event.updateOne(
+		{ _id: new ObjectId(`${id}`) },
+		{ $set: updatedata }
+	);
+	if (result.matchedCount === 0) {
+		return res.json({ status: "Event doesn't found" });
+	}
+	res.status(200).json({
+		status: "updated succesfully",
+	});
+};
+
+const handledeleterouter = (req, res) => {};
+
 module.exports = {
 	handlegetrouter,
 	handlepostevent,
+	handleputrouter,
+	handledeleterouter,
 };

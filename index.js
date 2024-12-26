@@ -3,10 +3,9 @@ const { connecttomongoDB } = require("./models/event");
 const eventRouter = require("./routes/event");
 const app = express();
 
-// Async function to ensure MongoDB connection is established before starting the server
 const startServer = async () => {
 	try {
-		await connecttomongoDB("mongodb://localhost:27017"); // Ensure MongoDB is connected first
+		await connecttomongoDB("mongodb://localhost:27017");
 		const PORT = 8000;
 
 		app.use(express.urlencoded({ extended: false }));
@@ -19,8 +18,8 @@ const startServer = async () => {
 		});
 	} catch (err) {
 		console.error("Failed to connect to MongoDB:", err);
-		process.exit(1); // Exit the process if MongoDB connection fails
+		process.exit(1);
 	}
 };
 
-startServer(); // Call the function to start the server
+startServer();
