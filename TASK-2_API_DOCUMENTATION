@@ -4,18 +4,18 @@ we make the documentation for "nudge".
 
 ----------------------------------->
 
-| Request Type | Base URL | API Endpoint | Payload | Description |
-| ------------ | -------- | ------------ | ------- | ----------- |
+Request Type  Base URL             API Endpoint               Payload                             Description  
 
-GET | /api/v3 | /nudge?id=:nudge_id | - | Retrieves a specific nudge by its unique ID.
 
-GET | /api/v3 | /nudges?user_id=:id | - | Fetches all nudges created by a specific user.
+GET            /api/v3         /nudge?id=:nudge_id            -                     Retrieves a specific nudge by its unique ID.
 
-POST | /api/v3 | /nudges | Object Data Model | Creates a new nudge based on the provided payload.
+GET            /api/v3         /nudges?user_id=:id            -                     Fetches all nudges created by a specific user.
 
-PUT | /api/v3 | /nudge/:id | Object Data Model | Updates an existing nudge by its unique ID.
+POST           /api/v3         /nudges                  Object Data Model           Creates a new nudge based on the provided payload.
 
-DELETE | /api/v3 | /nudge/:id | - | Deletes a specific nudge by its unique ID.
+PUT            /api/v3         /nudge/:id               Object Data Model           Updates an existing nudge by its unique ID.
+
+DELETE         /api/v3        /nudge/:id                     -                    Deletes a specific nudge by its unique ID.
 
 Now we define the request object model(what user give) and response object model(what user get)
 
