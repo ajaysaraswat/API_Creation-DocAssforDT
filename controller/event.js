@@ -59,9 +59,10 @@ const handlepostevent = async (req, res) => {
 	const Event = getCollection();
 	try {
 		const body = req.body;
+		const eventCount = await Event.countDocuments();
 		const payload = {
 			type: "Event",
-			uid: Event.length + 1,
+			uid: eventCount + 1,
 			name: body.name,
 			tagline: body.tagline,
 			schedule: body.schedule,
