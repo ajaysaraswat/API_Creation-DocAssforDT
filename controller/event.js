@@ -66,14 +66,14 @@ const handlepostevent = async (req, res) => {
 			tagline: body.tagline,
 			schedule: body.schedule,
 			description: body.description,
-			files: `/uploads/${req.file.filename}`, // Assuming `files` is an object or array from the client
+			files: `/uploads/${req.file.filename}`,
 			moderator: body.moderator,
 			category: body.category,
 			sub_category: body.sub_category,
 			rigor_rank: body.rigor_rank,
-			attendees: body.attendees || [], // Default to an empty array if not provided
-			createdAt: new Date(), // Timestamp for creation
-			updatedAt: new Date(), // Timestamp for updates
+			attendees: body.attendees || [],
+			createdAt: new Date(),
+			updatedAt: new Date(),
 		};
 
 		const event = await Event.insertOne(payload);
