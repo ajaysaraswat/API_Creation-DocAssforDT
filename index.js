@@ -2,6 +2,7 @@ const express = require("express");
 const { connecttomongoDB } = require("./models/event");
 const eventRouter = require("./routes/event");
 const app = express();
+const Path = require("path");
 
 const startServer = async () => {
 	try {
@@ -10,6 +11,7 @@ const startServer = async () => {
 
 		app.use(express.urlencoded({ extended: false }));
 		app.use(express.json());
+		app.use(express.static(Path.resolve("./public")));
 
 		app.use("/api/v3/app", eventRouter);
 

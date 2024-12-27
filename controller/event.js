@@ -55,6 +55,7 @@ const handlegetrouter = async (req, res) => {
 };
 
 const handlepostevent = async (req, res) => {
+	console.log("req.file", req.file);
 	const Event = getCollection();
 	try {
 		const body = req.body;
@@ -65,7 +66,7 @@ const handlepostevent = async (req, res) => {
 			tagline: body.tagline,
 			schedule: body.schedule,
 			description: body.description,
-			files: body.files || {}, // Assuming `files` is an object or array from the client
+			files: `/uploads/${req.file.filename}`, // Assuming `files` is an object or array from the client
 			moderator: body.moderator,
 			category: body.category,
 			sub_category: body.sub_category,
